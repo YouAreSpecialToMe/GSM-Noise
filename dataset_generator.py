@@ -58,7 +58,7 @@ def save_samples(samples, dataset_name, output_path):
 
             json.dump(converted_sample, f)
 
-    print(f"Dataset is save to {full_path}")
+    print(f"Dataset is save at {full_path}")
 
 
 if __name__ == '__main__':
@@ -122,9 +122,9 @@ if __name__ == '__main__':
         os.makedirs(new_folder_name)
 
     # Generate samples for each dataset split
-    generate_samples(train_indices, 'train', args.prob_irre, args.prob_grammar_error, args.prob_symbol_error,
+    generate_samples(train_indices, 'train', args.nums, args.prob_irre, args.prob_grammar_error, args.prob_symbol_error,
                      new_folder_name)
-    generate_samples(val_indices, 'validation', args.prob_irre, args.prob_grammar_error, args.prob_symbol_error,
+    generate_samples(val_indices, 'validation',args.nums, args.prob_irre, args.prob_grammar_error, args.prob_symbol_error,
                      new_folder_name)
-    generate_samples(test_indices, 'test', args.prob_irre, args.prob_grammar_error, args.prob_symbol_error,
+    generate_samples(test_indices, 'test',args.nums, args.prob_irre, args.prob_grammar_error, args.prob_symbol_error,
                      new_folder_name)

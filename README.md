@@ -53,3 +53,25 @@ Ratio of the training set
 
 *val_ratio (float, default=0.15)
 Ratio of the validation set
+
+## Output Structure
+The script automatically creates a folder based on the chosen probabilities.
+For example:
+
+```bash
+irre-1_grammar-0.4_symbol-0.015_shuffle/
+    ├── train.jsonl
+    ├── validation.jsonl
+    └── test.jsonl
+```
+
+Each .jsonl file contains one sample per line, with fields:
+```bash
+{
+  "cot": "...",
+  "problem": "...",
+  "answer": "...",
+  "original_problem": "...",
+  "irrelevant_infos": "..."
+}
+```

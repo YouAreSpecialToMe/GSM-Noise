@@ -26,22 +26,30 @@ python generate_dataset.py \
     --prob_grammar_error 0.4 \
     --prob_symbol_error 0.015 \
     --shuffle True \
-    --num 50
+    --num 50 \
+    --train_ratio 0.7 \
+    --val_ratio 0.15 \
 ```
 
 ### Arguments
 
--prob_irre (float, default=1)
+*prob_irre (float, default=1)
 Probability of adding irrelevant information to problems.
 
--prob_grammar_error (float, default=0.4)
+*prob_grammar_error (float, default=0.4)
 Probability of introducing grammar errors.
 
--prob_symbol_error (float, default=0.015)
+*prob_symbol_error (float, default=0.015)
 Probability of inserting meaningless symbols.
 
--shuffle (bool, default=True)
+*shuffle (bool, default=True)
 Whether to shuffle the question statements.
 
--num (int, default=50)
+*num (int, default=50)
 Number of samples to generate per template.
+
+*train_ratio (float, default=0.7)
+Ratio of the training set
+
+*val_ratio (float, default=0.15)
+Ratio of the validation set

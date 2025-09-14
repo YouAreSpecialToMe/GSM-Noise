@@ -5,7 +5,7 @@ import json
 from tqdm import tqdm
 from fractions import Fraction
 
-def generate_samples(template_indices, dataset_name, prob_irre, prob_grammar_error, prob_symbol_error, output_path):
+def generate_samples(nums, template_indices, dataset_name, prob_irre, prob_grammar_error, prob_symbol_error, shuffle, output_path):
     samples = []
     print(f"Processing file: {dataset_name}.jsonl")
     for idx in tqdm(template_indices, desc=f"Generating samples for {dataset_name}"):
@@ -21,8 +21,8 @@ def generate_samples(template_indices, dataset_name, prob_irre, prob_grammar_err
         generate_new_problem = getattr(template_module, 'generate_new_problem')
 
         # Generate 50 samples per template
-        for _ in range(1):
-            sample = generate_new_problem(prob_irre, prob_grammar_error, prob_symbol_error)
+        for _ in range(nums):
+            sample = generate_new_problem(prob_irre, prob_grammar_error, prob_symbol_error, shuffle)
             samples.append(sample)
 
     # Save samples to file
@@ -68,22 +68,32 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Generate a dataset.")
     parser.add_argument('--prob_irre', type=float, default=1, help="Probability of adding irrelevant information.")
     parser.add_argument('--prob_grammar_error', type=float, default=0.4, help="Probability of adding grammar errors.")
-    parser.add_argument('--prob_symbol_error', type=float, default=0.015,
-                        help="Probability of adding meaningless symbols.")
-    parser.add_argument('--shuffle', type=bool, default=True, help="Shuffle the stories or not.")
-    parser.add_argument('--num', type=int, default=50, help="Generate num samples")
+    parser.add_argument('--prob_symbol_error', type=float, default=0.015, help="Probability of adding meaningless symbols.")
+    parser.add_argument('--shuffle', type=bool, default=True, help="Shuffle the templates before splitting.")
+    parser.add_argument('--num', type=int, default=50, help="Number of samples to generate per template.")
+    parser.add_argument('--train_ratio', type=float, default=0.7, help="Proportion of templates used for training.")
+    parser.add_argument('--val_ratio', type=float, default=0.15, help="Proportion of templates used for validation.")
     args = parser.parse_args()
 
     total_templates = 220
     template_indices = list(range(total_templates))
-    random.shuffle(template_indices)
 
-    train_split = int(0.7 * total_templates)
-    val_split = int(0.85 * total_templates)
+    # Validate ratios
+    if not (0 < args.train_ratio < 1):
+        raise ValueError("--train_ratio must be in (0, 1)")
+    if not (0 <= args.val_ratio < 1):
+        raise ValueError("--val_ratio must be in [0, 1)")
+    if args.train_ratio + args.val_ratio >= 1:
+        raise ValueError("train_ratio + val_ratio must be < 1")
+
+    # Compute split indices
+    train_split = int(args.train_ratio * total_templates)
+    val_split = int((args.train_ratio + args.val_ratio) * total_templates)
 
     train_indices = template_indices[:train_split]
     val_indices = template_indices[train_split:val_split]
     test_indices = template_indices[val_split:]
+
 
     new_folder_name = ""
     is_first = True

@@ -14,6 +14,8 @@ Make sure you have Python 3.8+ installed. Install dependencies:
 ```bash
 pip install tqdm
 
+---
+
 ## Usage
 
 Run the script directly from the command line:

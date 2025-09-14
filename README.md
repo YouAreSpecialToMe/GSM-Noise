@@ -13,8 +13,8 @@ Make sure you have Python 3.8+ installed. Install dependencies:
 
 ```bash
 pip install tqdm
+```
 
----
 
 ## Usage
 
@@ -27,20 +27,21 @@ python generate_dataset.py \
     --prob_symbol_error 0.015 \
     --shuffle True \
     --num 50
+```
 
 ### Arguments
 
-•	--prob_irre (float, default=1)
+-prob_irre (float, default=1)
 Probability of adding irrelevant information to problems.
 
-	•	--prob_grammar_error (float, default=0.4)
+-prob_grammar_error (float, default=0.4)
 Probability of introducing grammar errors.
 
-	•	--prob_symbol_error (float, default=0.015)
+-prob_symbol_error (float, default=0.015)
 Probability of inserting meaningless symbols.
 
-	•	--shuffle (bool, default=True)
+-shuffle (bool, default=True)
 Whether to shuffle the question statements.
 
-	•	--num (int, default=50)
+-num (int, default=50)
 Number of samples to generate per template.
